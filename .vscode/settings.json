@@ -1,0 +1,9 @@
+{
+  "files.exclude": {
+    "__error": "Not found",
+    "**/obj": true,
+    "**/obj.*": true,
+    "**/bin": true,
+    "**/bin.*": true
+  }
+}

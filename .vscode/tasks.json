@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [{
+            "label": "build api",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/angularapiTemplate.Web/angularapiTemplate.Web.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "deploy api",
+            "dependsOn": ["deploy app"],
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "--no-restore",
+                "-o",
+                "..\\deploy",
+                "-c",
+                "Production",
+                "${workspaceFolder}/angularapiTemplate.Web/angularapiTemplate.Web.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "deploy app",
+            "type": "shell",
+            "command": "cd angularapiTemplate.Web/app; npm run publish-folder"
+        },
+        {
+            "label": "pnpm install",
+            "type": "shell",
+            "command": "cd angularapiTemplate.Web/app; pnpm i --shamefully-flatten"
+        }
+    ]
+}
