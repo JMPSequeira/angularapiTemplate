@@ -41,10 +41,7 @@ namespace angularapiTemplate.Web
 
             // This ensures the app will serve the static files
             if (env.IsProduction())
-            {
-                app.UseDefaultFiles();
-                app.UseStaticFiles();
-            }
+                app.UseFileServer();
 
             app.UseHttpsRedirection();
 

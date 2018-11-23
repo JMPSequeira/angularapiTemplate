@@ -13,16 +13,16 @@
     "preferNameDirectory": true,
     "symbols": {
         "DataLayer": {
+            "datatype": "bool",
             "type": "parameter",
-            "defaultValue": "true",
-            "datatype": "bool"
+            "defaultValue": "true"
         },
         "Database": {
+            "datatype": "choice",
             "type": "parameter",
             "onlyIf": {
                 "after": "DataLayer"
             },
-            "datatype": "choice",
             "choices": [{
                     "choice": "Sqlite",
                     "description": "Use SqlLite"
@@ -38,9 +38,34 @@
             "datatype": "bool",
             "type": "computed",
             "value": "(Database == \"Sqlite\")"
+        },
+        "VSCode": {
+            "datatype": "bool",
+            "type": "parameter",
+            "defaultValue": "true",
+            "description": "Generates VSCode tasks to speed up development."
+        },
+        "MakeHidden": {
+            "datatype": "bool",
+            "type": "parameter",
+            "defaultValue": "true",
+            "description": "Adds params to hide obj/bin/.vscode folders using MakeHidden extension in VSCode.",
+            "onlyIf": {
+                "after": "VSCode"
+            }
         }
     },
     "sources": [{
+        "exclude": [
+            "**/[Bb]in/**",
+            "**/[Oo]bj/**",
+            ".template.config/**/*",
+            "**/*.filelist",
+            "**/*.user",
+            "**/*.lock.json",
+            "**/.git/**",
+            ".gitignore"
+        ],
         "modifiers": [{
             "condition": "(!DataLayer)",
             "exclude": [
@@ -50,6 +75,11 @@
             "rename": {
                 "angularapiTemplate.Web/angularapiTemplate.Web.NoData.csproj": "angularapiTemplate.Web/angularapiTemplate.Web.csproj"
             }
+        }, {
+            "condition": "(DataLayer)",
+            "exclude": [
+                "angularapiTemplate.Web/angularapiTemplate.Web.NoData.csproj"
+            ]
         }, {
             "condition": "(Sqlite)",
             "exclude": [
@@ -63,6 +93,16 @@
             "condition": "(!Sqlite)",
             "exclude": [
                 "angularapiTemplate.Data/angularapiTemplate.Data.Sqlite.csproj"
+            ]
+        }, {
+            "condition": "(!VSCode)",
+            "exclude": [
+                "**/.vscode/**"
+            ]
+        }, {
+            "condition": "(!MakeHidden)",
+            "exclude": [
+                "**/.vscode/settings.json"
             ]
         }]
     }]

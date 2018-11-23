@@ -4,9 +4,11 @@
             "label": "build api",
             "command": "dotnet",
             "type": "process",
+            "options": {
+                "cwd": "${workspaceFolder}/angularapiTemplate.Web/"
+            },
             "args": [
                 "build",
-                "${workspaceFolder}/angularapiTemplate.Web/angularapiTemplate.Web.csproj"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -15,26 +17,32 @@
             "dependsOn": ["deploy app"],
             "command": "dotnet",
             "type": "process",
+            "options": {
+                "cwd": "${workspaceFolder}/angularapiTemplate.Web/"
+            },
             "args": [
                 "publish",
                 "--no-restore",
                 "-o",
                 "..\\deploy",
                 "-c",
-                "Production",
-                "${workspaceFolder}/angularapiTemplate.Web/angularapiTemplate.Web.csproj"
+                "Release",
             ],
             "problemMatcher": "$msCompile"
         },
         {
             "label": "deploy app",
             "type": "shell",
-            "command": "cd angularapiTemplate.Web/app; npm run publish-folder"
+            "command": "cd ${workspaceFolder}/angularapiTemplate.Web/app; npm run publish-folder"
         },
         {
             "label": "pnpm install",
             "type": "shell",
-            "command": "cd angularapiTemplate.Web/app; pnpm i --shamefully-flatten"
+            "command": "cd ${workspaceFolder}/angularapiTemplate.Web/app; pnpm i --shamefully-flatten"
+        },
+        {
+            "label": "init pnpm",
+            "dependsOn": ["build api", "pnpm install"]
         }
     ]
 }

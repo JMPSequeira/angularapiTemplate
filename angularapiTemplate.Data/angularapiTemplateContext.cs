@@ -4,13 +4,12 @@ namespace angularapiTemplate.Data
 {
     public class angularapiTemplateContext : DbContext
     {
-        public angularapiTemplateContext(DbContextOptions<angularapiTemplateContext> options) : base(options)
-        {
 ##if (Sqlite == true)
-            options.UseSqlite("Data Source=angularapiTemplate.db");
-##endif
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=angularapiTemplate.db");
+            base.OnConfiguring(optionsBuilder);
         }
-
-        public angularapiTemplateContext() { }
+##endif    
     }
 }
